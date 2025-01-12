@@ -48,7 +48,7 @@ function addGamesToPage(games) {
             <p>Backers: ${game.backers}</p>
             <p>Pledged: $${game.pledged.toLocaleString()}</p>
             <p>Goal: $${game.goal.toLocaleString()}</p>
-            <p>Progress: ${((game.pledged / game.goal) * 100).toFixed(1)}%</p>
+            <p>Funding Progress: ${((game.pledged / game.goal) * 100).toFixed(1)}%</p>
         `;
 
         // append the game to the games-container
@@ -149,12 +149,18 @@ allBtn.addEventListener('click', showAllGames);
 const descriptionContainer = document.getElementById("description-container");
 
 // use filter or reduce to count the number of unfunded games
-
+const unfundedGames = GAMES_JSON.filter(game => game.pledged < game.goal);
+const numUnfundedGames = unfundedGames.length;
 
 // create a string that explains the number of unfunded games using the ternary operator
-
+const unfundedDescription = numUnfundedGames === 0 
+    ? "All games are fully funded!" 
+    : `There ${numUnfundedGames === 1 ? 'is' : 'are'} ${numUnfundedGames} unfunded ${numUnfundedGames === 1 ? 'game' : 'games'} remaining.`;
 
 // create a new DOM element containing the template string and append it to the description container
+const unfundedInfo = document.createElement('p');
+unfundedInfo.textContent = unfundedDescription;
+descriptionContainer.appendChild(unfundedInfo);
 
 /************************************************************************************
  * Challenge 7: Select & display the top 2 games
